@@ -1,6 +1,8 @@
 ## Sources
 - https://hdr.undp.org/data-center/documentation-and-downloads
 - https://www.kaggle.com/datasets/iamsouravbanerjee/world-population-dataset
+- https://www.kaggle.com/datasets/rafsunahmad/terrorist-attacks-data-since-1970-2023/data
+- https://www.kaggle.com/datasets/nelgiriyewithana/countries-of-the-world-2023
 
 ## TODO
 - https://www.macrotrends.net/countries/AFG/afghanistan/gdp-gross-domestic-product
@@ -11,6 +13,12 @@
 - `year`: Year from 1990 to 2021
 
 - `population`: Approximate population (linear extrapolation between 2000, 2010, 2020 and 2022 years)
+- `gdp`: Gross domestic product
+- `terrorism_deaths`: Number of people killed by terrorism
+- `army`: Army size in 2023
+- `area`: Country area in square kilometers
+- `birth_rate`: Number of births per 1000 population in a given year
+
 - `hdi`: Human Development Index
 - `le`: Life expectancy at birth
 - `eys`: Expected years of schooling (for the future)

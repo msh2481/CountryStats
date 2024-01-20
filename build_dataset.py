@@ -28,6 +28,8 @@ Year = int
 hdi_df = pd.read_csv("HDR21-22_Composite_indices_complete_time_series.csv")
 pop_df = pd.read_csv("world_population.csv")
 gdp_df = pd.read_csv("GDP.csv")
+terror_df = pd.read_csv("terrorist-attacks.csv")
+w23_df = pd.read_csv("world-data-2023.csv")
 
 pop_df["1990 Population"] = pop_df["2000 Population"] - (
     pop_df["2010 Population"] - pop_df["2000 Population"]
@@ -66,21 +68,44 @@ for _, row in hdi_df.iterrows():
     if "." in iso3:
         continue
     if (pop_df["CCA3"] == iso3).sum() == 0:
+        print(iso3, "not matched in pop_df")
         continue
+
     pop_row = pop_df[pop_df["CCA3"] == iso3].iloc[0]
     gdp_row = gdp_df[gdp_df["Country Code"] == iso3].iloc[0]
+
     if iso3 not in used_iso3 and row["country"] != pop_row["Country/Territory"]:
         print("Matched", iso3, row["country"], pop_row["Country/Territory"])
+
     country = pop_row["Country/Territory"]
+    w23_row = None
+    for _, w23_row_iter in w23_df.iterrows():
+        if (
+            w23_row_iter["Country"] == country
+            or w23_row_iter["Country"] == pop_row["Country/Territory"]
+        ):
+            w23_row = w23_row_iter
+            break
     used_iso3.add(iso3)
 
     for year in range(1990, 2021 + 1):
+        terror_subset = terror_df[
+            (terror_df["Code"] == iso3) & (terror_df["Year"] == year)
+        ]
+        if len(terror_subset) == 0:
+            terrorism_deaths = None
+        else:
+            terrorism_deaths = terror_subset.iloc[0]["Terrorism deaths"]
         to_append = {
             "country": country,
             "iso3": iso3,
             "year": year,
             "population": pop_row[f"{year} Population"],
             "gdp": gdp_row[f"{year}"],
+            "terrorism_deaths": terrorism_deaths,
+            "army": w23_row["Armed Forces size"] if w23_row is not None else None,
+            "area": w23_row["Land Area(Km2)"] if w23_row is not None else None,
+            "birth_rate": w23_row["Birth Rate"] if w23_row is not None else None,
         }
         for hdi_metric in hdi_metrics:
             to_append[hdi_metric] = row[f"{hdi_metric}_{year}"]
