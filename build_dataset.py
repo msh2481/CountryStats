@@ -27,6 +27,7 @@ Year = int
 
 hdi_df = pd.read_csv("HDR21-22_Composite_indices_complete_time_series.csv")
 pop_df = pd.read_csv("world_population.csv")
+gdp_df = pd.read_csv("GDP.csv")
 
 pop_df["1990 Population"] = pop_df["2000 Population"] - (
     pop_df["2010 Population"] - pop_df["2000 Population"]
@@ -42,7 +43,7 @@ for year in range(1990, 2021 + 1):
     pop_df[f"{year} Population"] = pop_df[f"{year} Population"].astype(int)
 
 
-metrics: list[str] = []
+hdi_metrics: list[str] = []
 for col in hdi_df.columns:
     if (
         col in ["iso3", "country", "hdicode", "region"]
@@ -54,8 +55,8 @@ for col in hdi_df.columns:
     ):
         continue
     parts = list(col.split("_"))
-    metric = "_".join(parts[:-1])
-    metrics.append(metric)
+    hdi_metric = "_".join(parts[:-1])
+    hdi_metrics.append(hdi_metric)
 
 data_list: list[dict[str, Any]] = []
 used_iso3 = set()
@@ -67,6 +68,7 @@ for _, row in hdi_df.iterrows():
     if (pop_df["CCA3"] == iso3).sum() == 0:
         continue
     pop_row = pop_df[pop_df["CCA3"] == iso3].iloc[0]
+    gdp_row = gdp_df[gdp_df["Country Code"] == iso3].iloc[0]
     if iso3 not in used_iso3 and row["country"] != pop_row["Country/Territory"]:
         print("Matched", iso3, row["country"], pop_row["Country/Territory"])
     country = pop_row["Country/Territory"]
@@ -78,9 +80,10 @@ for _, row in hdi_df.iterrows():
             "iso3": iso3,
             "year": year,
             "population": pop_row[f"{year} Population"],
+            "gdp": gdp_row[f"{year}"],
         }
-        for metric in metrics:
-            to_append[metric] = row[f"{metric}_{year}"]
+        for hdi_metric in hdi_metrics:
+            to_append[hdi_metric] = row[f"{hdi_metric}_{year}"]
         data_list.append(to_append)
 
 
