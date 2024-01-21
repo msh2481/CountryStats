@@ -128,9 +128,21 @@ def build_ideals() -> pd.DataFrame:
     return result
 
 
-# data_base = build_base()
-# data_base.to_csv("data_base.csv")
-data_base = pd.read_csv("data_base.csv")
+@typed
+def build_dem() -> pd.DataFrame:
+    dem_df = pd.read_csv("V-Dem-CY-Core-v13.csv")
+    result = pd.DataFrame()
+    result["iso3"] = dem_df["country_text_id"]
+    result["year"] = dem_df["year"]
+    result["democracy"] = dem_df["v2x_polyarchy"]
+    return result
+
+
+# data = build_base()
+# data.to_csv("data_base.csv")
+data = pd.read_csv("data_base.csv")
 ideals = build_ideals()
-data = data_base.merge(ideals, on=["iso3", "year"], how="left").drop(columns="Unnamed: 0")
+dem = build_dem()
+data = data.merge(ideals, on=["iso3", "year"], how="left").drop(columns="Unnamed: 0")
+data = data.merge(dem, on=["iso3", "year"], how="left")
 data.to_csv("data.csv")

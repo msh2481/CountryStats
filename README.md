@@ -4,9 +4,11 @@
 - https://www.kaggle.com/datasets/rafsunahmad/terrorist-attacks-data-since-1970-2023/data
 - https://www.kaggle.com/datasets/nelgiriyewithana/countries-of-the-world-2023
 - https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/LEJUQZ
+- https://www.v-dem.net/data/the-v-dem-dataset/country-year-v-dem-core-v13/
 
 ## TODO
 - https://www.macrotrends.net/countries/AFG/afghanistan/gdp-gross-domestic-product
+- https://www.systemicpeace.org/inscrdata.html
 
 ## Fields
 - `country`: Country name
@@ -45,3 +47,5 @@
 - `co2_prod`: CO2 production (tonnes)
 - `mf`: Material footprint per capita (tonnes)
 
+- `ideal`: Ideal point estimates as in "Estimating dynamic state preferences from United Nations voting data."
+- `democracy`: V-Dem polyarchy index
