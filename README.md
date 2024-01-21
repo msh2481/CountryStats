@@ -3,6 +3,7 @@
 - https://www.kaggle.com/datasets/iamsouravbanerjee/world-population-dataset
 - https://www.kaggle.com/datasets/rafsunahmad/terrorist-attacks-data-since-1970-2023/data
 - https://www.kaggle.com/datasets/nelgiriyewithana/countries-of-the-world-2023
+- https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/LEJUQZ
 
 ## TODO
 - https://www.macrotrends.net/countries/AFG/afghanistan/gdp-gross-domestic-product
