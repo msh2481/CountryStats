@@ -33,6 +33,10 @@ def build_base() -> pd.DataFrame:
     gdp_df = pd.read_csv("GDP.csv")
     terror_df = pd.read_csv("terrorist-attacks.csv")
     w23_df = pd.read_csv("world-data-2023.csv")
+    w23_df["Land Area(Km2)"] = (
+        w23_df["Land Area(Km2)"].str.replace(",", "").astype(float)
+    )
+    print(w23_df["Land Area(Km2)"])
 
     pop_df["1990 Population"] = pop_df["2000 Population"] - (
         pop_df["2010 Population"] - pop_df["2000 Population"]
@@ -139,10 +143,9 @@ def build_dem() -> pd.DataFrame:
 
 
 # data = build_base()
-# data.to_csv("data_base.csv")
 data = pd.read_csv("data_base.csv")
-ideals = build_ideals()
-dem = build_dem()
-data = data.merge(ideals, on=["iso3", "year"], how="left").drop(columns="Unnamed: 0")
+ideals = pd.read_csv("ideals.csv")
+dem = pd.read_csv("dem.csv")
+data = data.merge(ideals, on=["iso3", "year"], how="left").drop("Unnamed: 0_x", axis=1)
 data = data.merge(dem, on=["iso3", "year"], how="left")
 data.to_csv("data.csv")
