@@ -6,6 +6,7 @@
 - https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/LEJUQZ
 - https://www.v-dem.net/data/the-v-dem-dataset/country-year-v-dem-core-v13/
 - https://www.rug.nl/ggdc/historicaldevelopment/maddison/
+- https://data.worldbank.org/indicator/MS.MIL.TOTL.P1
 
 ## TODO
 - https://www.macrotrends.net/countries/AFG/afghanistan/gdp-gross-domestic-product

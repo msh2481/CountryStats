@@ -155,15 +155,32 @@ def build_gdppc() -> pd.DataFrame:
     return result
 
 
+@typed
+def build_army() -> pd.DataFrame:
+    army_df = pd.read_csv("API_MS.MIL.TOTL.P1_DS2_en_csv_v2_6299880.csv")
+    dfs = []
+    for _, row in army_df.iterrows():
+        iso3 = row["Country Code"]
+        rows = []
+        for year in range(1990, 2021 + 1):
+            army = row[f"{year}"]
+            rows.append({"iso3": iso3, "year": year, "army": army})
+        df = pd.DataFrame(rows)
+        df["army"] = df["army"].bfill().ffill()
+        dfs.append(df)
+    return pd.concat(dfs)
+
+
 # data = build_base()
-data = pd.read_csv("data_base.csv", index_col=0)
-data["army"] = data["army"].str.replace(",", "").astype(float)
+data = pd.read_csv("data_base.csv", index_col=0).drop("army", axis=1)
 ideals = pd.read_csv("ideals.csv", index_col=0)
 dem = pd.read_csv("dem.csv", index_col=0)
 gdppc_df = pd.read_csv("gdppc.csv", index_col=0)
+army = pd.read_csv("army.csv", index_col=0)
 data = data.merge(ideals, on=["iso3", "year"], how="left")
 data = data.merge(dem, on=["iso3", "year"], how="left")
 data = data.merge(gdppc_df, on=["iso3", "year"], how="left")
+data = data.merge(army, on=["iso3", "year"], how="left")
 
 known_population = data["population_2"].notna()
 pop = data["population"][known_population]
