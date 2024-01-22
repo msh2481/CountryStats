@@ -156,11 +156,12 @@ def build_gdppc() -> pd.DataFrame:
 
 
 # data = build_base()
-data = pd.read_csv("data_base.csv")
-ideals = pd.read_csv("ideals.csv")
-dem = pd.read_csv("dem.csv")
-gdppc_df = pd.read_csv("gdppc.csv")
-data = data.merge(ideals, on=["iso3", "year"], how="left").drop("Unnamed: 0_x", axis=1)
+data = pd.read_csv("data_base.csv", index_col=0)
+data["army"] = data["army"].str.replace(",", "").astype(float)
+ideals = pd.read_csv("ideals.csv", index_col=0)
+dem = pd.read_csv("dem.csv", index_col=0)
+gdppc_df = pd.read_csv("gdppc.csv", index_col=0)
+data = data.merge(ideals, on=["iso3", "year"], how="left")
 data = data.merge(dem, on=["iso3", "year"], how="left")
 data = data.merge(gdppc_df, on=["iso3", "year"], how="left")
 
