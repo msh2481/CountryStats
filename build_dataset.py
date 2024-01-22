@@ -149,7 +149,7 @@ def build_gdppc() -> pd.DataFrame:
     result["iso3"] = gdppc_df["countrycode"]
     result["year"] = gdppc_df["year"]
     result["gdppc"] = gdppc_df["gdppc"].str.replace(",", "").astype(float)
-    result["population"] = (
+    result["population_2"] = (
         gdppc_df["pop"].str.replace(",", "").astype(float).fillna(0).astype(int)
     )
     return result
@@ -159,8 +159,16 @@ def build_gdppc() -> pd.DataFrame:
 data = pd.read_csv("data_base.csv")
 ideals = pd.read_csv("ideals.csv")
 dem = pd.read_csv("dem.csv")
-gdppc_df = build_gdppc()
-gdppc_df.to_csv("gdppc.csv")
+gdppc_df = pd.read_csv("gdppc.csv")
 data = data.merge(ideals, on=["iso3", "year"], how="left").drop("Unnamed: 0_x", axis=1)
 data = data.merge(dem, on=["iso3", "year"], how="left")
+data = data.merge(gdppc_df, on=["iso3", "year"], how="left")
+
+known_population = data["population_2"].notna()
+pop = data["population"][known_population]
+pop2 = data["population_2"][known_population]
+k_pop = (pop / pop2).median()
+data.loc[known_population, "population"] = (pop2 * k_pop).astype(int)
+data = data.drop("population_2", axis=1)
+
 data.to_csv("data.csv")
