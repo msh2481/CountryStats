@@ -188,5 +188,5 @@ pop2 = data["population_2"][known_population]
 k_pop = (pop / pop2).median()
 data.loc[known_population, "population"] = (pop2 * k_pop).astype(int)
 data = data.drop("population_2", axis=1)
-
+data["gdppc"] = data["gdppc"].ffill()
 data.to_csv("data.csv")

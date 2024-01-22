@@ -20,7 +20,7 @@
 - `population`: Approximate population (linear extrapolation between 2000, 2010, 2020 and 2022 years)
 - `gdp`: Gross domestic product
 - `terrorism_deaths`: Number of people killed by terrorism
-- `army`: Army size in 2023
+- `army`: Army size
 - `area`: Country area in square kilometers
 - `birth_rate`: Number of births per 1000 population in a given year
 
@@ -51,3 +51,4 @@
 
 - `ideal`: Ideal point estimates as in "Estimating dynamic state preferences from United Nations voting data."
 - `democracy`: V-Dem polyarchy index
+- `gdppc`: GDP (PPP) per capita
