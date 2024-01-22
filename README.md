@@ -5,6 +5,7 @@
 - https://www.kaggle.com/datasets/nelgiriyewithana/countries-of-the-world-2023
 - https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/LEJUQZ
 - https://www.v-dem.net/data/the-v-dem-dataset/country-year-v-dem-core-v13/
+- https://www.rug.nl/ggdc/historicaldevelopment/maddison/
 
 ## TODO
 - https://www.macrotrends.net/countries/AFG/afghanistan/gdp-gross-domestic-product

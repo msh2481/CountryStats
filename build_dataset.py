@@ -142,10 +142,25 @@ def build_dem() -> pd.DataFrame:
     return result
 
 
+@typed
+def build_gdppc() -> pd.DataFrame:
+    gdppc_df = pd.read_csv("mpd2020.csv")
+    result = pd.DataFrame()
+    result["iso3"] = gdppc_df["countrycode"]
+    result["year"] = gdppc_df["year"]
+    result["gdppc"] = gdppc_df["gdppc"].str.replace(",", "").astype(float)
+    result["population"] = (
+        gdppc_df["pop"].str.replace(",", "").astype(float).fillna(0).astype(int)
+    )
+    return result
+
+
 # data = build_base()
 data = pd.read_csv("data_base.csv")
 ideals = pd.read_csv("ideals.csv")
 dem = pd.read_csv("dem.csv")
+gdppc_df = build_gdppc()
+gdppc_df.to_csv("gdppc.csv")
 data = data.merge(ideals, on=["iso3", "year"], how="left").drop("Unnamed: 0_x", axis=1)
 data = data.merge(dem, on=["iso3", "year"], how="left")
 data.to_csv("data.csv")
